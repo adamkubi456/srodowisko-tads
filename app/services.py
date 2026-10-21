@@ -33,12 +33,13 @@ def policz_wskazniki(sciezka, region=None):
     else:
         marza = (przychod - koszt) / przychod
         
+    # Zwracamy słownik z zaokrąglonymi wartościami
     return {
         'region': region,
         'liczba_zamowien': liczba_zamowien,
-        'przychod': przychod,
-        'koszt': koszt,
-        'marza': marza
+        'przychod': round(przychod, 2),
+        'koszt': round(koszt, 2),
+        'marza': round(marza, 4)
     }
 
 

@@ -89,7 +89,7 @@ def sciezka_danych():
     aplikacja = STAN["aplikacja"]
     if aplikacja is not None and aplikacja.config.get("SCIEZKA_DANYCH"):
         return str(aplikacja.config["SCIEZKA_DANYCH"])
-    return str(KORZEN / "dane" / "zamowienia.csv")
+    return str(KORZEN / "dane" / "dane_zamowienia.csv")
 
 
 def modul_uslug():
@@ -167,11 +167,11 @@ def _():
 
 # ------------------------------------------------------------------ zadanie 2
 
-@sprawdzenie(2, "Zbior dane/zamowienia.csv zgodny z trescia cwiczen")
+@sprawdzenie(2, "Zbior dane/dane_zamowienia.csv zgodny z trescia cwiczen")
 def _():
-    sciezka = KORZEN / "dane" / "zamowienia.csv"
+    sciezka = KORZEN / "dane" / "dane_zamowienia.csv"
     if not sciezka.is_file():
-        return False, "brak pliku dane/zamowienia.csv"
+        return False, "brak pliku dane/dane_zamowienia.csv"
     with open(sciezka, encoding="utf-8", newline="") as plik:
         wiersze = list(csv.DictReader(plik))
     przychod = round(sum(float(w["przychod"]) for w in wiersze), 2)

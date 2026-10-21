@@ -4,7 +4,7 @@ from app.services import dostepne_regiony, policz_wskazniki
 api_bp = Blueprint('api', __name__)
 
 @api_bp.route("/kpi")
-def api_kpi():
+def kpi():
     sciezka = current_app.config["SCIEZKA_DANYCH"]
     region = request.args.get("region")
     

@@ -1,9 +1,12 @@
 import logging
+import time
+from datetime import date
 from flask import Flask, g, request
 from app.config import KONFIGURACJE
 from app.converters import RegionConverter
-import time
 from app.errors import zarejestruj_obsluge_bledow
+from app.filters import zarejestruj_filtry
+from app.services import dostepne_regiony
 
 def create_app(nazwa_konfiguracji="rozwojowa"):
     app = Flask(__name__)
@@ -32,6 +35,16 @@ def create_app(nazwa_konfiguracji="rozwojowa"):
     # Ustawienie poziomu dziennika
     app.logger.setLevel(logging.INFO)
     
+    # Rejestracja filtrów i procesora kontekstu
+    zarejestruj_filtry(app)
+
+    @app.context_processor
+    def dane_wspolne():
+        return {
+            "regiony": dostepne_regiony(app.config["SCIEZKA_DANYCH"]),
+            "rok_biezacy": date.today().year,
+        }
+    
     # Importowanie blueprintów wewnątrz funkcji zapobiega tzw. importom cyklicznym
     from app.routes_panel import panel_bp
     from app.routes_api import api_bp
@@ -40,4 +53,5 @@ def create_app(nazwa_konfiguracji="rozwojowa"):
     app.register_blueprint(panel_bp)
     app.register_blueprint(api_bp, url_prefix="/api")
     app.register_blueprint(api_bp, url_prefix="/api/v2", name="api_v2")
+    
     return app

@@ -10,3 +10,13 @@
 {% elif marza >= cel - 0.05 %}<span class="ocena norma">w normie</span>
 {% else %}<span class="ocena niska">poniżej celu</span>{% endif %}
 {%- endmacro %}
+
+{% macro pole(p) -%}
+<div class="pole{{ ' blad' if p.errors }}">
+  {{ p.label }}
+  {{ p(**kwargs) }}
+  {% for blad in p.errors -%}
+  <p class="komunikat-pola">{{ blad }}</p>
+  {% endfor -%}
+</div>
+{%- endmacro %}

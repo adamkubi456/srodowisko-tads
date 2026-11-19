@@ -7,7 +7,9 @@ from app.converters import RegionConverter
 from app.errors import zarejestruj_obsluge_bledow
 from app.filters import zarejestruj_filtry
 from app.services import dostepne_regiony
+from flask_wtf.csrf import CSRFProtect
 
+csrf = CSRFProtect()
 def create_app(nazwa_konfiguracji="rozwojowa"):
     app = Flask(__name__)
 
@@ -53,5 +55,7 @@ def create_app(nazwa_konfiguracji="rozwojowa"):
     app.register_blueprint(panel_bp)
     app.register_blueprint(api_bp, url_prefix="/api")
     app.register_blueprint(api_bp, url_prefix="/api/v2", name="api_v2")
+
+    csrf.init_app(app)
     
     return app
